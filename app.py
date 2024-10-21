@@ -1,3 +1,4 @@
+
 import streamlit as st
 import PyPDF2
 import nltk
@@ -106,7 +107,7 @@ st.markdown("""
 # Sidebar for input
 st.sidebar.header("Upload Your Job Description")
 job_desc_file = st.sidebar.file_uploader("Upload Job Description (PDF)", type="pdf")
-op=st.sidebar.button("Available Options")
+pdf_file = st.sidebar.file_uploader("Upload Resume (PDF)", type="pdf")
 
 #Prompts
 input_prompt1 = """
@@ -152,112 +153,111 @@ The output should come as text containing all recommended skills required for gi
 """
 
 
-if op=="Yes, I have":
-  pdf_file = st.sidebar.file_uploader("Upload Resume (PDF)", type="pdf")
 
-  opt = st.sidebar.selectbox("Available Options", ["Choose an option","Percentage match", "Show Relevant Skills", "Non-relevant Skills", "Plagiarism Score", "Relevant Projects", "Recommended Skills", "Tell Me About the Resume" , "Tailor Resume"])
+opt = st.sidebar.selectbox("Available Options", ["Choose an option","Percentage match", "Show Relevant Skills", "Non-relevant Skills", "Plagiarism Score", "Relevant Projects", "Recommended Skills", "Tell Me About the Resume" , "Tailor Resume"])
 
   # Option: Job Description Matching Score
-  if opt == "Percentage match":
-    if pdf_file is not None and job_desc_file is not None:
-        pdf_content = input_pdf_setup(pdf_file)
-        job_desc_text = input_pdf_setup(job_desc_file)
-        response = get_gemini_response(input_prompt3, pdf_content, job_desc_text[0])
+if opt == "Percentage match":
+  if pdf_file is not None and job_desc_file is not None:
+      pdf_content = input_pdf_setup(pdf_file)
+      job_desc_text = input_pdf_setup(job_desc_file)
+      response = get_gemini_response(input_prompt3, pdf_content, job_desc_text[0])
 
 
 
         # Display the percentage as a progress bar
-        st.subheader("Percentage Match")
-        st.progress(int(response))
-        st.write(f"Match: {response}%")
+      st.subheader("Percentage Match")
+      st.progress(int(response))
+      st.write(f"Match: {response}%")
 
+  else:
+      st.write("Please upload both the resume and job description.")
+
+  # Option: Show Relevant Skills
+if opt == "Show Relevant Skills":
+    if pdf_file is not None and job_desc_file is not None:
+        pdf_content = input_pdf_setup(pdf_file)
+        job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
+        response = get_gemini_response(input_prompt4, pdf_content, job_desc_text[0])
+        st.subheader("Relevant Skills")
+        st.write(response)
     else:
         st.write("Please upload both the resume and job description.")
 
-  # Option: Show Relevant Skills
-  if opt == "Show Relevant Skills":
-      if pdf_file is not None and job_desc_file is not None:
-          pdf_content = input_pdf_setup(pdf_file)
-          job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
-          response = get_gemini_response(input_prompt4, pdf_content, job_desc_text[0])
-          st.subheader("Relevant Skills")
-          st.write(response)
-      else:
-          st.write("Please upload both the resume and job description.")
-
   # Option: Non-relevant Skills
-  if opt == "Non-relevant Skills":
-      if pdf_file is not None and job_desc_file is not None:
-          pdf_content = input_pdf_setup(pdf_file)
-          job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
-          response = get_gemini_response(input_prompt5, pdf_content, job_desc_text[0])
-          st.subheader("Non-Relevant Skills")
-          st.write(response)
-      else:
-          st.write("Please upload both the resume and job description.")
+if opt == "Non-relevant Skills":
+    if pdf_file is not None and job_desc_file is not None:
+        pdf_content = input_pdf_setup(pdf_file)
+        job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
+        response = get_gemini_response(input_prompt5, pdf_content, job_desc_text[0])
+        st.subheader("Non-Relevant Skills")
+        st.write(response)
+    else:
+        st.write("Please upload both the resume and job description.")
 
   # Option: Plagiarism Score
-  if opt == "Plagiarism Score":
-      if pdf_file is not None and job_desc_file is not None:
-          pdf_content = input_pdf_setup(pdf_file)
-          job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
-          response = get_gemini_response(input_prompt6, pdf_content, job_desc_text[0])
-          st.subheader("Plagiarism Score")
-          # Display the percentage as a progress bar
-          st.progress(int(response))
-          st.write(f"Match: {response}%")
-      else:
-          st.write("Please upload both the resume and job description.")
+if opt == "Plagiarism Score":
+    if pdf_file is not None and job_desc_file is not None:
+        pdf_content = input_pdf_setup(pdf_file)
+        job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
+        response = get_gemini_response(input_prompt6, pdf_content, job_desc_text[0])
+        st.subheader("Plagiarism Score")
+        # Display the percentage as a progress bar
+        st.progress(int(response))
+        st.write(f"Match: {response}%")
+    else:
+        st.write("Please upload both the resume and job description.")
 
   # Option: Relevant Projects
-  if opt == "Relevant Projects":
-      if pdf_file is not None and job_desc_file is not None:
-          pdf_content = input_pdf_setup(pdf_file)
-          job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
-          response = get_gemini_response(input_prompt7, pdf_content, job_desc_text[0])
-          st.subheader("Relevant Projects for the Job Description")
-          st.write(response)
-      else:
-          st.write("Please upload both the resume and job description.")
+if opt == "Relevant Projects":
+    if pdf_file is not None and job_desc_file is not None:
+        pdf_content = input_pdf_setup(pdf_file)
+        job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
+        response = get_gemini_response(input_prompt7, pdf_content, job_desc_text[0])
+        st.subheader("Relevant Projects for the Job Description")
+        st.write(response)
+    else:
+        st.write("Please upload both the resume and job description.")
 
 
   # Option: Recommended Skills
-  if opt == "Recommended Skills":
-      if pdf_file is not None and job_desc_file is not None:
-          pdf_content = input_pdf_setup(pdf_file)
-          job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
-          response = get_gemini_response(input_prompt8, pdf_content, job_desc_text[0])
-          st.subheader("Recommended Skills")
-          st.write(response)
-      else:
-          st.write("Please upload both the resume and job description.")
+if opt == "Recommended Skills":
+    if pdf_file is not None and job_desc_file is not None:
+        pdf_content = input_pdf_setup(pdf_file)
+        job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
+        response = get_gemini_response(input_prompt8, pdf_content, job_desc_text[0])
+        st.subheader("Recommended Skills")
+        st.write(response)
+    else:
+        st.write("Please upload both the resume and job description.")
 
   # Option: Resume Summary
-  if opt == "Tell Me About the Resume":
-      if pdf_file is not None and job_desc_file is not None:
-          pdf_content = input_pdf_setup(pdf_file)
-          job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
-          response = get_gemini_response(input_prompt1, pdf_content, job_desc_text[0])
-          st.subheader("Resume Tells")
-          st.write(response)
-      else:
-          st.write("Please upload both the resume and job description.")
+if opt == "Tell Me About the Resume":
+    if pdf_file is not None and job_desc_file is not None:
+        pdf_content = input_pdf_setup(pdf_file)
+        job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
+        response = get_gemini_response(input_prompt1, pdf_content, job_desc_text[0])
+        st.subheader("Resume Tells")
+        st.write(response)
+    else:
+        st.write("Please upload both the resume and job description.")
 
   # Option: Tailor Resume
-  if opt == "Tailor Resume":
-      if pdf_file is not None and job_desc_file is not None:
-          pdf_content = input_pdf_setup(pdf_file)
-          job_desc_text = input_pdf_setup(job_desc_file)
-          tailored_resume = tailor_resume(pdf_content[0], job_desc_text[0])
+if opt == "Tailor Resume":
+    if pdf_file is not None and job_desc_file is not None:
+        pdf_content = input_pdf_setup(pdf_file)
+        job_desc_text = input_pdf_setup(job_desc_file)
+        tailored_resume = tailor_resume(pdf_content[0], job_desc_text[0])
 
-          st.download_button(
-              label="Download Tailored Resume (DOCX)",
-              data=tailored_resume,
-              file_name="tailored_resume.docx",
-              mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-          )
+        st.download_button(
+            label="Download Tailored Resume (DOCX)",
+            data=tailored_resume,
+            file_name="tailored_resume.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
 
-          st.header("Tailored Resume Suggestions")
-          st.write("Your resume has been tailored with suggestions on adding missing skills and highlighting relevant ones.")
-      else:
-          st.write("Please upload both the resume and job description.")
+        st.header("Tailored Resume Suggestions")
+        st.write("Your resume has been tailored with suggestions on adding missing skills and highlighting relevant ones.")
+    else:
+        st.write("Please upload both the resume and job description.")
+  
