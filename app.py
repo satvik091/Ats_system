@@ -192,7 +192,7 @@ if job_desc_file is not None:
         resume_file = st.file_uploader("Upload Your Resume (PDF)", type="pdf")
 
         if resume_file is not None:
-            opt = st.sidebar.selectbox("Available Options", ["Choose an option","Percentage match", "Show Relevant Skills", "Non-relevant Skills", "Plagiarism Score", "Relevant Projects", "Recommended Skills", "Tell Me About the Resume" , "Tailor Resume"])
+            opt = st.sidebar.selectbox("Available Options", ["Choose an option","Percentage match", "Show Relevant Skills", "Non-relevant Skills", "Plagiarism Score", "Relevant Projects", "Recommended Skills", "Tell Me About the Resume" ])
             resume_pdf_content = input_pdf_setup(resume_file)
             resume_text = resume_pdf_content[0]
 
