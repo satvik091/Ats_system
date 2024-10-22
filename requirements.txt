@@ -7,3 +7,8 @@ pdf2image
 nltk
 python-docx
 fpdf2
+nltk
+python-docx
+Pillow
+fpdf
+plotly
