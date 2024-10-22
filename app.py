@@ -119,45 +119,7 @@ def generate_resume():
         # PDF Download Link
         st.download_button("Download PDF", pdf, file_name="resume.pdf", mime="application/pdf")
 
-def tailor_resume(resume_text, job_desc_text):
-    # Extract skills from the job description
-    jd_skills = extract_skills(job_desc_text)
 
-    # Tokenize and clean the resume text
-    resume_tokens = word_tokenize(resume_text.lower())
-    resume_cleaned_tokens = [word for word in resume_tokens if word.isalpha() and word not in stopwords.words('english')]
-
-    # Identify relevant and missing skills
-    relevant_resume_skills = set(resume_cleaned_tokens).intersection(jd_skills)
-    missing_skills = jd_skills - relevant_resume_skills
-
-    # Load resume into a docx template for editing
-    doc = Document()
-    doc.add_heading('Tailored Resume', 0)
-
-    # Split resume text into paragraphs
-    resume_lines = resume_text.split("\n")
-
-    # Add the resume content to the docx, while suggesting improvements
-    for line in resume_lines:
-        doc.add_paragraph(line)
-
-    # Insert a section for adding missing skills
-    if missing_skills:
-        doc.add_heading('Suggested Improvements (Based on Job Description)', level=1)
-        doc.add_paragraph(
-            "The following skills are suggested to be added based on the job description:\n" +
-            ', '.join(missing_skills) + ".\nPlease consider adding them to your resume, especially in sections like 'Skills' or 'Experience'."
-        )
-
-    # Add relevant skills (already in the resume)
-    doc.add_heading('Relevant Skills Already Present', level=1)
-    doc.add_paragraph(', '.join(relevant_resume_skills))
-
-    # Return the tailored resume as a downloadable DOCX file
-    output = BytesIO()
-    doc.save(output)
-    return output.getvalue()
 
 # Streamlit UI
 st.title("GLA University ATS System")
@@ -279,8 +241,7 @@ if job_desc_file is not None:
               st.subheader("Resume Tells")
               st.write(response)
 
-            if opt == "Tailor Resume":
-              tailored_resume = tailor_resume(resume_text, job_desc_text)
+
 
     if op == "No, I have to create.":
         generate_resume()
