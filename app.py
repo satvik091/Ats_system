@@ -43,6 +43,7 @@ def input_pdf_setup(pdf_file):
     return [extract_text_from_pdf(pdf_file)]
 
 
+# Define the PDF class
 class PDF(FPDF):
     def add_section(self, title, content):
         # Add section title
@@ -82,14 +83,13 @@ def generate_pdf(name, email, phone, skills, education, work_experience, project
         if content:
             pdf.add_section(title, content)
 
-    # Save the PDF to BytesIO stream
+    # Save to BytesIO
     pdf_output = BytesIO()
     pdf.output(pdf_output, 'S')
     pdf_output.seek(0)  # Move to the beginning of the BytesIO stream
 
     return pdf_output
 
-# Streamlit Download Button
 def generate_resume():
     st.header("Create Your Resume")
 
@@ -110,14 +110,8 @@ def generate_resume():
         # Generate the PDF with structured formatting
         pdf = generate_pdf(name, email, phone, skills, education, work_experience, projects, achievements, certifications, hobbies)
 
-        # Properly encode and allow file download
-        st.download_button(
-            label="Download PDF",
-            data=pdf,
-            file_name="resume.pdf",
-            mime="application/pdf"
-        )
-
+        # PDF Download Link
+        st.download_button("Download PDF", pdf, file_name="resume.pdf", mime="application/pdf")
 
 
 # Streamlit UI
