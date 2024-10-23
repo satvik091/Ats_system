@@ -16,7 +16,7 @@ from fpdf import FPDF
 import plotly.graph_objects as go
 
 # Set Streamlit page config at the top
-st.set_page_config(page_title="**GLA ATS System**", page_icon=":guardsman:")
+st.set_page_config(page_title="GLA ATS System", page_icon=":guardsman:")
 
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -27,7 +27,8 @@ from nltk.tokenize import word_tokenize
 genai.configure(api_key=("AIzaSyAHrZuX0mzeKQUTtUNX1zv3dNO-m56T_nU"))
 
 def get_gemini_response(input, pdf_content, prompt):
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel(model="gemini-pro",
+                                   temperature=0.3)
     response = model.generate_content([input, pdf_content[0], prompt])
     return response.text
 
@@ -41,13 +42,6 @@ def extract_text_from_pdf(pdf_file):
 
 def input_pdf_setup(pdf_file):
     return [extract_text_from_pdf(pdf_file)]
-
-def extract_skills(text):
-    skill_set = {'python', 'java', 'data analysis', 'project management', 'machine learning', 'communication', 'sql'}
-    tokens = word_tokenize(text.lower())
-    cleaned_tokens = [word for word in tokens if word.isalpha() and word not in stopwords.words('english')]
-    relevant_skills = skill_set.intersection(cleaned_tokens)
-    return relevant_skills
 
 # Define the PDF class
 class PDF(FPDF):
@@ -118,7 +112,6 @@ def generate_resume():
 
         # PDF Download Link
         st.download_button("Download PDF", pdf, file_name="resume.pdf", mime="application/pdf")
-
 
 
 # Streamlit UI
