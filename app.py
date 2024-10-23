@@ -175,12 +175,10 @@ The output should come as text containing all recommended skills required for gi
 
 # If a job description is uploaded
 if job_desc_file is not None:
-    op = st.sidebar.selectbox("Resume:", ["Choose an option", "Yes, I have", "No, I have to create."])
     pdf_content = input_pdf_setup(job_desc_file)
     job_desc_text = pdf_content[0]
 
     # Call the API with the prompts
-    if op == "Yes, I have":
         st.subheader("Your Resume")
         resume_file = st.file_uploader("Upload Your Resume (PDF)", type="pdf")
 
@@ -236,7 +234,6 @@ if job_desc_file is not None:
 
 
 
-    if op == "No, I have to create.":
-        generate_resume()
+
 
 
