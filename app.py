@@ -27,7 +27,7 @@ from nltk.tokenize import word_tokenize
 genai.configure(api_key=("AIzaSyAHrZuX0mzeKQUTtUNX1zv3dNO-m56T_nU"))
 
 def get_gemini_response(input, pdf_content, prompt):
-    model = genai.GenerativeModel("gemini-pro",temperature=0.3)
+    model = genai.GenerativeModel('gemini-1.5-flash')
     response = model.generate_content([input, pdf_content[0], prompt])
     return response.text
 
