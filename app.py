@@ -42,6 +42,16 @@ def extract_text_from_pdf(pdf_file):
 def input_pdf_setup(pdf_file):
     return [extract_text_from_pdf(pdf_file)]
 
+
+class PDF(FPDF):
+    def add_section(self, title, content):
+        # Add section title
+        self.set_font('Arial', 'B', 14)
+        self.cell(200, 10, title, ln=True)
+        self.set_font('Arial', '', 12)
+        self.multi_cell(0, 10, content)
+        self.ln(5)  # Add some space after each section
+
 def generate_pdf(name, email, phone, skills, education, work_experience, projects, achievements, certifications, hobbies):
     pdf = PDF()
     pdf.add_page()
