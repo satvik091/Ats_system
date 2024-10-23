@@ -1,3 +1,4 @@
+%%writefile app.py
 import streamlit as st
 import PyPDF2
 import nltk
@@ -24,7 +25,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
 # Configure Google Generative AI
-genai.configure(api_key=("AIzaSyAHrZuX0mzeKQUTtUNX1zv3dNO-m56T_nU"))
+genai.configure(api_key=("AIzaSyD95tDMjfi-0z8Kejnt8WzwOXzMQP0_RNI"))
 
 def get_gemini_response(input, pdf_content, prompt):
     model = genai.GenerativeModel('gemini-1.5-flash')
@@ -41,7 +42,6 @@ def extract_text_from_pdf(pdf_file):
 
 def input_pdf_setup(pdf_file):
     return [extract_text_from_pdf(pdf_file)]
-
 
 # Define the PDF class
 class PDF(FPDF):
@@ -113,9 +113,8 @@ def generate_resume():
         # PDF Download Link
         st.download_button("Download PDF", pdf, file_name="resume.pdf", mime="application/pdf")
 
-
 # Streamlit UI
-st.title("GLA University ATS System")
+st.title("**GLA University ATS System**")
 st.subheader("About")
 st.write("This sophisticated ATS project, developed with Gemini Pro and Streamlit, seamlessly incorporates advanced features including resume match percentage, keyword analysis to identify missing criteria, and the generation of comprehensive profile summaries, enhancing the efficiency and precision of the candidate evaluation process for discerning talent acquisition professionals.")
 
@@ -175,15 +174,17 @@ The output should come as text containing all recommended skills required for gi
 
 # If a job description is uploaded
 if job_desc_file is not None:
+    op = st.sidebar.selectbox("Resume:", ["Choose an option", "Yes, I have", "No, I have to create."])
     pdf_content = input_pdf_setup(job_desc_file)
     job_desc_text = pdf_content[0]
 
     # Call the API with the prompts
+    if op == "Yes, I have":
         st.subheader("Your Resume")
         resume_file = st.file_uploader("Upload Your Resume (PDF)", type="pdf")
 
         if resume_file is not None:
-            opt = st.sidebar.selectbox("Available Options", ["Choose an option","Percentage match", "Show Relevant Skills", "Non-relevant Skills", "Plagiarism Score", "Relevant Projects", "Recommended Skills", "Tell Me About the Resume" ])
+            opt = st.sidebar.selectbox("Available Options", ["Choose an option","Percentage match", "Show Relevant Skills", "Non-relevant Skills", "Plagiarism Score", "Relevant Projects", "Recommended Skills", "Tell Me About the Resume" , "Tailor Resume"])
             resume_pdf_content = input_pdf_setup(resume_file)
             resume_text = resume_pdf_content[0]
 
@@ -233,7 +234,5 @@ if job_desc_file is not None:
               st.write(response)
 
 
-
-
-
-
+    if op == "No, I have to create.":
+        generate_resume()
