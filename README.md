@@ -1,85 +1,77 @@
-GLA University ATS System
-Overview
-The GLA University ATS System is a sophisticated Applicant Tracking System (ATS) developed using Streamlit and Google Gemini Pro API. This system automates resume evaluation against job descriptions, providing detailed insights, including match percentages, keyword analysis, and profile summaries. It helps streamline the recruitment process for talent acquisition professionals.
+# GLA University ATS System
 
-Features
-Resume Match Percentage: Calculate how closely a resume matches a job description.
-Keyword Analysis: Identify relevant and non-relevant skills in resumes.
-Plagiarism Detection: Check resumes for plagiarism against the job description.
-Relevant Projects Extraction: Highlight projects that align with the job description.
-Skill Recommendations: Suggest missing skills required for the job.
-Detailed Resume Evaluation: Provide a comprehensive professional analysis of resumes.
-Tech Stack
-Python
-Streamlit: For creating an interactive web app.
-Google Gemini Pro API: For advanced content evaluation.
-PyPDF2: For extracting text from PDFs.
-NLTK: For natural language processing and tokenization.
-FPDF: For generating PDFs.
-Plotly: For data visualization (e.g., progress bars).
-Pillow: For image processing.
-Installation and Setup
-Clone the Repository:
+A Streamlit-based Applicant Tracking System (ATS) application, integrated with Google's Gemini API, designed to streamline candidate evaluation. This system evaluates resumes against job descriptions using advanced features like match percentage calculation, keyword analysis, and profile summaries.
 
-bash
-Copy code
-git clone https://github.com/your-username/gla-ats-system.git
-cd gla-ats-system
-Install Dependencies:
+## Features
 
-bash
-Copy code
-pip install -r requirements.txt
-Set Up Google Gemini API:
+- **Resume Match Percentage**: Calculates how well a resume matches the job description.
+- **Keyword Analysis**: Identifies missing and relevant criteria from the resume.
+- **Plagiarism Check**: Calculates plagiarism percentage for resumes.
+- **Skill Analysis**: Highlights relevant and non-relevant skills based on the job description.
+- **Recommended Skills**: Suggests skills that are missing from the resume but are present in the job description.
+- **Project Evaluation**: Extracts relevant projects that match the job description.
+- **Profile Summary**: Provides a detailed analysis of strengths, weaknesses, and overall fit.
 
-Obtain an API key from Google Makersuite.
-Create a .env file in the project directory and add your API key:
-env
-Copy code
-GOOGLE_API_KEY=your_api_key_here
-Run the App:
+## Getting Started
 
-bash
-Copy code
-streamlit run app.py
-Access the Application: Open your browser and navigate to http://localhost:8501.
+### Prerequisites
 
-Usage
-Upload Job Description:
+- Python 3.x
+- All required Python packages are listed in `requirements.txt`.
 
-Use the sidebar to upload a job description in PDF format.
-Upload Resume:
+### Setup
 
-Upload a candidate's resume in PDF format.
-Choose an Option:
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/yourusername/gla-ats-system.git
+    cd gla-ats-system
+    ```
 
-Select an action from the sidebar, such as:
-Percentage Match
-Show Relevant Skills
-Non-Relevant Skills
-Plagiarism Score
-Relevant Projects
-Recommended Skills
-Tell Me About the Resume
-View Results:
+2. **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Results will be displayed dynamically on the interface.
-Prompts Used
-Percentage Match: Numerical match percentage.
-Show Relevant Skills: Lists skills aligning with the job description.
-Non-Relevant Skills: Lists skills not relevant to the job.
-Plagiarism Score: Indicates the percentage of plagiarized content.
-Relevant Projects: Lists projects that fit the job requirements.
-Recommended Skills: Suggests missing skills.
-Tell Me About the Resume: Provides a professional evaluation summary.
-Screenshots
+3. **Set up the Google Gemini API**:
+    - Obtain an API key from [Google Gemini](https://makersuite.google.com/).
+    - Store it in a `.env` file as follows:
+      ```
+      AI_API_KEY=your_gemini_api_key
+      ```
 
-License
+4. **Run the Streamlit app**:
+    ```bash
+    streamlit run app.py
+    ```
+
+5. **Usage**:
+    - Upload a job description in PDF format.
+    - Upload a resume in PDF format.
+    - Use the sidebar to select options such as "Percentage Match," "Relevant Skills," etc.
+
+### Files
+
+- `app.py`: The main Streamlit application.
+- `.env`: Environment variables, including the API key for Google Gemini.
+- `requirements.txt`: Contains all the dependencies required for the project.
+
+## How It Works
+
+1. **Resume Analysis**:
+    - Extracts text from PDF resumes and job descriptions.
+    - Uses prompts to query the Google Gemini API for detailed evaluations.
+
+2. **Gemini Integration**:
+    - Leverages the Gemini API for natural language processing and analysis tasks.
+
+3. **Streamlit UI**:
+    - Provides a user-friendly interface for uploading files and viewing results.
+
+## License
+
 This project is licensed under the MIT License.
 
-Contributing
-Feel free to fork this repository, create issues, or submit pull requests. Contributions are welcome!
+## Acknowledgments
 
-Contact
-For any inquiries or issues, contact [Your Name] at [Your Email].
-
+- [Streamlit](https://streamlit.io/)
+- [Google Gemini](https://deepmind.google/technologies/gemini/#introduction)
