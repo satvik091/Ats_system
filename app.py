@@ -43,15 +43,6 @@ def extract_text_from_pdf(pdf_file):
 def input_pdf_setup(pdf_file):
     return [extract_text_from_pdf(pdf_file)]
 
-# Define the PDF class
-class PDF(FPDF):
-    def add_section(self, title, content):
-        # Add section title
-        self.set_font('Arial', 'B', 14)
-        self.cell(200, 10, title, ln=True)
-        self.set_font('Arial', '', 12)
-        self.multi_cell(0, 10, content)
-        self.ln(5)  # Add some space after each section
 
 # Streamlit UI
 st.title("**GLA University ATS System**")
@@ -70,10 +61,15 @@ job_desc_file = st.sidebar.file_uploader("Upload Job Description (PDF)", type="p
 
 # Prompts
 input_prompt1 = """
- You are an experienced Technical Human Resource Manager, your task is to review the provided resume against the job description.
-  Please share your professional evaluation on whether the candidate's profile aligns with the role.
- Highlight the strengths and weaknesses of the applicant in relation to the specified job requirements.
+You are an experienced Technical Human Resource Manager tasked with evaluating resumes against job descriptions. 
+Using the provided job description and resume text, perform a detailed analysis. Highlight the following:
+1. Candidate's strengths in relation to the job requirements.
+2. Key weaknesses or areas needing improvement.
+3. Specific skills or experiences that align with the job description.
+4. Overall fit for the role.
+Return the evaluation in a clear, professional format.
 """
+
 input_prompt3 = """
 You are a skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality.
 Your task is to evaluate the resume against the provided job description and provide a match percentage.
@@ -165,6 +161,6 @@ if job_desc_file is not None:
             st.write(recommended_skills)
 
         if opt == "Tell Me About the Resume":
-            response = get_gemini_response(input_prompt1, pdf_content, job_desc_text[0])
+            response = get_gemini_response( resume_text, job_desc_text[0], input_prompt1)
             st.subheader("Resume Tells")
             st.write(response)
