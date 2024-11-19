@@ -21,9 +21,11 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
 
-# Configure Google Generative AI
-genai.configure(api_key=("AIzaSyAHrZuX0mzeKQUTtUNX1zv3dNO-m56T_nU"))
+# Load environment variables
+load_dotenv()
 
+# Configure Google Generative AI
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def get_gemini_response(input, pdf_content, prompt):
     model = genai.GenerativeModel('gemini-1.5-flash')
