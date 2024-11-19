@@ -306,10 +306,10 @@ if op=="Yes, I have":
   if opt == "Plagiarism Score":
       if pdf_file is not None and job_desc_file is not None:
           response = get_gemini_response(input_prompt6, pdf_content, job_desc_text[0])
-            st.subheader("Plagiarism Score")
+          st.subheader("Plagiarism Score")
             # Display the percentage as a progress bar
-            st.progress(int(response))
-            st.write(f"Match: {response}%")
+          st.progress(int(response))
+          st.write(f"Match: {response}%")
       else:
           st.write("Please upload both the resume and job description.")
 
