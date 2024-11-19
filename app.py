@@ -219,15 +219,19 @@ op=st.sidebar.selectbox("Resume:",["Choose an option","Yes, I have","No, I have 
 
 #Prompts
 input_prompt1 = """
- You are an experienced Technical Human Resource Manager,your task is to review the provided resume against the job description.
-  Please share your professional evaluation on whether the candidate's profile aligns with the role.
- Highlight the strengths and weaknesses of the applicant in relation to the specified job requirements.
+ You are an experienced Technical Human Resource Manager tasked with evaluating resumes against job descriptions. 
+Using the provided job description and resume text, perform a detailed analysis. Highlight the following:
+1. Candidate's strengths in relation to the job requirements.
+2. Key weaknesses or areas needing improvement.
+3. Specific skills or experiences that align with the job description.
+4. Overall fit for the role.
+Return the evaluation in a clear, professional format.
 """
 
 input_prompt3 = """
-You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality,
-your task is to evaluate the resume against the provided job description. give me the percentage of match if the resume matches
-the job description. The output should come as percentage.
+You are a skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality.
+Your task is to evaluate the resume against the provided job description and provide a match percentage.
+The output should be a numerical percentage value only, without any additional text or symbols (e.g., 75).
 """
 
 input_prompt4 = """
@@ -245,7 +249,7 @@ the job description. The output should come as text containing all non-relevant 
 input_prompt6 = """
 You are a skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality.
 Your task is to evaluate the resume against the provided job description and return only the plagiarism score, expressed
-as a percentage of similarity between the two documents.
+as a percentage of similarity between the resume with all global resumes.
 """
 
 input_prompt7 = """
@@ -268,12 +272,12 @@ if op=="Yes, I have":
 
   # Option: Job Description Matching Score
   if opt == "Percentage match":
-      if pdf_file is not None and job_desc_file is not None:
-          pdf_content = input_pdf_setup(pdf_file)
-          job_desc_text = input_pdf_setup(job_desc_file)
-          response = get_gemini_response(input_prompt3, pdf_content, job_desc_text[0])
-          st.subheader("Percentage Match")
-          st.write(response)
+      if opt == "Percentage match":
+            response = get_gemini_response(input_prompt3, pdf_content, job_desc_text[0])
+            # Display the percentage as a progress bar
+            st.subheader("Percentage Match")
+            st.progress(int(response))
+            st.write(f"Match: {response}%")
       else:
           st.write("Please upload both the resume and job description.")
   # Option: Show Relevant Skills
@@ -301,11 +305,11 @@ if op=="Yes, I have":
   # Option: Plagiarism Score
   if opt == "Plagiarism Score":
       if pdf_file is not None and job_desc_file is not None:
-          pdf_content = input_pdf_setup(pdf_file)
-          job_desc_text = input_pdf_setup(job_desc_file)  # Fix: initialize job_desc_text
           response = get_gemini_response(input_prompt6, pdf_content, job_desc_text[0])
-          st.subheader("Plagiarism Score")
-          st.write(response)
+            st.subheader("Plagiarism Score")
+            # Display the percentage as a progress bar
+            st.progress(int(response))
+            st.write(f"Match: {response}%")
       else:
           st.write("Please upload both the resume and job description.")
 
