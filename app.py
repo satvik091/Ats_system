@@ -254,7 +254,7 @@ if job_desc_file is not None:
 
             if opt == "Tell Me About the Resume":
               st.subheader("Detailed Evaluation of Resume")
-              evaluation_response = get_gemini_response(resume_content, job_desc_content, input_prompt1)
+              evaluation_response = get_gemini_response(resume_pdf_content, pdf_content, input_prompt1)
               if evaluation_response:
                   st.write(evaluation_response)
 
