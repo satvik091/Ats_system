@@ -248,7 +248,7 @@ if job_desc_file is not None:
               st.write(recommended_skills)
 
             if opt == "Tell Me About the Resume":
-              response = get_gemini_response(input_prompt1, resume_pdf_content, job_desc_text[0])
+              response = get_gemini_response(input_prompt1, resume_pdf_content, pdf_content)
               st.subheader("Resume Tells")
               st.write(response)
 
