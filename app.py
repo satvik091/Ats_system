@@ -27,15 +27,20 @@ from nltk.tokenize import word_tokenize
 # Configure Google Generative AI
 genai.configure(api_key=("AIzaSyD95tDMjfi-0z8Kejnt8WzwOXzMQP0_RNI"))
 
-def get_gemini_response(input_text, pdf_content, prompt):
+def get_gemini_response(resume_text, job_desc_text, prompt):
     """Fetches a response from Gemini API."""
     try:
         model = genai.GenerativeModel('gemini-1.5-flash')
-        response = model.generate_content([input_text, pdf_content, prompt])
+        
+        # Combine inputs into a single text blob
+        input_text = f"Resume:\n{resume_text}\n\nJob Description:\n{job_desc_text}\n\nPrompt:\n{prompt}"
+        
+        response = model.generate_content(input_text)
         return response.text
     except Exception as e:
         st.error(f"Error in Gemini API: {e}")
         return None
+
 
 def extract_text_from_pdf(pdf_file):
     reader = PyPDF2.PdfReader(pdf_file)
