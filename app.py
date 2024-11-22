@@ -27,10 +27,15 @@ from nltk.tokenize import word_tokenize
 # Configure Google Generative AI
 genai.configure(api_key=("AIzaSyD95tDMjfi-0z8Kejnt8WzwOXzMQP0_RNI"))
 
-def get_gemini_response(input, pdf_content, prompt):
-    model = genai.GenerativeModel('gemini-1.5-flash')
-    response = model.generate_content([input, pdf_content[0], prompt])
-    return response.text
+def get_gemini_response(input_text, pdf_content, prompt):
+    """Fetches a response from Gemini API."""
+    try:
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        response = model.generate_content([input_text, pdf_content, prompt])
+        return response.text
+    except Exception as e:
+        st.error(f"Error in Gemini API: {e}")
+        return None
 
 def extract_text_from_pdf(pdf_file):
     reader = PyPDF2.PdfReader(pdf_file)
@@ -149,9 +154,9 @@ job_desc_file = st.sidebar.file_uploader("Upload Job Description (PDF)", type="p
 
 #Prompts
 input_prompt1 = """
- You are an experienced Technical Human Resource Manager,your task is to review the provided resume against the job description.
-  Please share your professional evaluation on whether the candidate's profile aligns with the role.
- Highlight the strengths and weaknesses of the applicant in relation to the specified job requirements.
+ You are an experienced Technical Human Resource Manager. Your task is to review the provided resume against the job description.
+Please share your professional evaluation on whether the candidate's profile aligns with the role. Highlight the strengths and weaknesses
+of the applicant in relation to the specified job requirements.
 """
 
 input_prompt3 = """
@@ -248,10 +253,10 @@ if job_desc_file is not None:
               st.write(recommended_skills)
 
             if opt == "Tell Me About the Resume":
-              response = get_gemini_response(input_prompt1, resume_pdf_content, pdf_content)
-              st.subheader("Resume Tells")
-              st.write(response)
-
+              st.subheader("Detailed Evaluation of Resume")
+              evaluation_response = get_gemini_response(resume_content, job_desc_content, input_prompt1)
+              if evaluation_response:
+                  st.write(evaluation_response)
 
     if op == "No, I have to create.":
         generate_resume()
