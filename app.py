@@ -53,124 +53,82 @@ class PDF(FPDF):
         self.multi_cell(0, 10, content)
         self.ln(5)  # Add some space after each section
 
-def generate_pdf(name, email, phone, skills, education, work_experience, projects, achievements, certifications, hobbies):
-    pdf = PDF()
-    pdf.add_page()
-
-    # Header with name, email, and phone
-    pdf.set_font('Arial', 'B', 16)
-    pdf.set_text_color(0, 51, 102)  # Blue color for name
-    pdf.cell(200, 10, name, ln=True, align='C')
-
-    pdf.set_font('Arial', 'I', 12)
-    pdf.set_text_color(0, 0, 0)  # Black for email and phone
-    pdf.cell(200, 10, f'{email} | {phone}', ln=True, align='C')
-
-    pdf.ln(10)  # Space after header
-
-    # Adding sections to the PDF
-    sections = {
-        "Skills": skills,
-        "Education": education,
-        "Work Experience": work_experience,
-        "Projects": projects,
-        "Achievements": achievements,
-        "Certifications": certifications,
-        "Hobbies": hobbies
-    }
-
-    for title, content in sections.items():
-        if content:
-            pdf.add_section(title, content)
-
-    # Save to BytesIO
-    pdf_output = BytesIO()
-    pdf.output(pdf_output, 'S')
-    pdf_output.seek(0)  # Move to the beginning of the BytesIO stream
-
-    return pdf_output
-
 def generate_resume():
-   import streamlit as st
-
 # Function to generate PDF
-def generate_pdf(name, email, phone, skills, education, work_experience, projects, achievements, certifications, hobbies):
-    from io import BytesIO
-    from reportlab.lib.pagesizes import letter
-    from reportlab.pdfgen import canvas
-
-    buffer = BytesIO()
-    c = canvas.Canvas(buffer, pagesize=letter)
-    text = c.beginText(50, 750)
-
-    # Add content to the PDF
-    text.setFont("Helvetica", 12)
-    text.textLine(f"Name: {name}")
-    text.textLine(f"Email: {email}")
-    text.textLine(f"Phone: {phone}")
-    text.textLine("Skills:")
-    text.textLines(skills)
-    text.textLine("Education:")
-    text.textLines(education)
-    text.textLine("Work Experience:")
-    text.textLines(work_experience)
-    text.textLine("Projects:")
-    text.textLines(projects)
-    text.textLine("Achievements:")
-    text.textLines(achievements)
-    text.textLine("Certifications:")
-    text.textLines(certifications)
-    text.textLine("Hobbies:")
-    text.textLines(hobbies)
-
-    c.drawText(text)
-    c.save()
-
-    buffer.seek(0)
-    return buffer
-
-# Streamlit app
-st.title("Resume Generator")
-
-# User inputs
-name = st.text_input("Name")
-email = st.text_input("Email")
-phone = st.text_input("Phone Number")
-skills = st.text_area("Skills")
-education = st.text_area("Education")
-work_experience = st.text_area("Work Experience")
-projects = st.text_area("Projects")
-achievements = st.text_area("Achievements")
-certifications = st.text_area("Certifications")
-hobbies = st.text_area("Hobbies")
-
-# Generate Resume
-if st.button("Generate Resume"):
-    # Check if all fields are filled
-    if not all([name, email, phone, skills, education, work_experience, projects, achievements, certifications, hobbies]):
-        st.warning("Please fill in all fields before generating the resume.")
-    else:
-        # Generate the PDF
-        pdf = generate_pdf(
-            name,
-            email,
-            phone,
-            skills,
-            education,
-            work_experience,
-            projects,
-            achievements,
-            certifications,
-            hobbies,
-        )
-
-        # Provide download link
-        st.download_button(
-            label="Download PDF",
-            data=pdf,
-            file_name="resume.pdf",
-            mime="application/pdf"
-        )
+    def generate_pdf(name, email, phone, skills, education, work_experience, projects, achievements, certifications, hobbies):
+        from io import BytesIO
+        from reportlab.lib.pagesizes import letter
+        from reportlab.pdfgen import canvas
+    
+        buffer = BytesIO()
+        c = canvas.Canvas(buffer, pagesize=letter)
+        text = c.beginText(50, 750)
+    
+        # Add content to the PDF
+        text.setFont("Helvetica", 12)
+        text.textLine(f"Name: {name}")
+        text.textLine(f"Email: {email}")
+        text.textLine(f"Phone: {phone}")
+        text.textLine("Skills:")
+        text.textLines(skills)
+        text.textLine("Education:")
+        text.textLines(education)
+        text.textLine("Work Experience:")
+        text.textLines(work_experience)
+        text.textLine("Projects:")
+        text.textLines(projects)
+        text.textLine("Achievements:")
+        text.textLines(achievements)
+        text.textLine("Certifications:")
+        text.textLines(certifications)
+        text.textLine("Hobbies:")
+        text.textLines(hobbies)
+    
+        c.drawText(text)
+        c.save()
+    
+        buffer.seek(0)
+        return buffer
+    
+    # User inputs
+    name = st.text_input("Name")
+    email = st.text_input("Email")
+    phone = st.text_input("Phone Number")
+    skills = st.text_area("Skills")
+    education = st.text_area("Education")
+    work_experience = st.text_area("Work Experience")
+    projects = st.text_area("Projects")
+    achievements = st.text_area("Achievements")
+    certifications = st.text_area("Certifications")
+    hobbies = st.text_area("Hobbies")
+    
+    # Generate Resume
+    if st.button("Generate Resume"):
+        # Check if all fields are filled
+        if not all([name, email, phone, skills, education, work_experience, projects, achievements, certifications, hobbies]):
+            st.warning("Please fill in all fields before generating the resume.")
+        else:
+            # Generate the PDF
+            pdf = generate_pdf(
+                name,
+                email,
+                phone,
+                skills,
+                education,
+                work_experience,
+                projects,
+                achievements,
+                certifications,
+                hobbies,
+            )
+    
+            # Provide download link
+            st.download_button(
+                label="Download PDF",
+                data=pdf,
+                file_name="resume.pdf",
+                mime="application/pdf"
+            )
 
 
 # Streamlit UI
