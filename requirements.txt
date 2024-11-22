@@ -9,3 +9,4 @@ google.generativeai
 python-dotenv
 streamlit_extras
 pdf2image
+reportlab
