@@ -186,7 +186,7 @@ the job description. The output should come as text containing all non-relevant 
 input_prompt6 = """
 You are a skilled ATS (Applicant Tracking System) scanner with a deep understanding of ATS functionality.
 Your task is to evaluate the resume_text against the provided job description and provide a plagiarism percentage.
-The output should be a numerical percentage value only, without any additional text or symbols (e.g., 75).
+The output should be a numerical value only, without any additional text or symbols (e.g., 75).
 """
 
 input_prompt7 = """
