@@ -25,7 +25,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
 # Configure Google Generative AI
-genai.configure(api_key=("AIzaSyACVj30Yv9r03qxBz-b7oKUf_JUHMHbKTw"))
+genai.configure(api_key=("AIzaSyBGKcyTyznlGzbPuivbcnU3fVgJVrUl_24"))
 
 def get_gemini_response(resume_text, job_desc_text, prompt):
     """Fetches a response from Gemini API."""
